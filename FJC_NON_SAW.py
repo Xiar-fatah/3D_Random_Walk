@@ -4,19 +4,18 @@ Spyder Editor
 
 This is a temporary script file.
 """
-from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
 #%matplotlib qt, for interactive
-#Three dimensional random walk, freely jointed chain, non-SAW.
+#Three dimensional random walk, freely jointed chain, SAW
 
 #Number of steps
 num_of_steps = 10
 
 #Store x,y,z values, note the random walk begins in origo
-x = [0] * num_of_steps
-y = [0] * num_of_steps
-z = [0] * num_of_steps 
+x = [0] 
+y = [0] 
+z = [0]
 
 #A function that generates a random vector and normalizes it
 def rand_vec():
@@ -37,7 +36,7 @@ for i in range(0,num_of_steps):
     x.append(vec[0])
     y.append(vec[1])
     z.append(vec[2])
-
+print(x)
 
 #Three dimensional plot mabye try to plot in matlab instead? 
 fig = plt.figure()
