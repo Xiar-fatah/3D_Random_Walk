@@ -4,6 +4,7 @@ Spyder Editor
 
 This is a temporary script file.
 """
+from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
 #%matplotlib qt, for interactive
@@ -36,7 +37,6 @@ for i in range(0,num_of_steps):
     x.append(vec[0])
     y.append(vec[1])
     z.append(vec[2])
-print(x)
 
 #Three dimensional plot mabye try to plot in matlab instead? 
 fig = plt.figure()
