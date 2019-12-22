@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 #Three dimensional random walk, freely jointed chain, SAW
 
 #Number of steps
-num_of_steps = 10
+num_of_steps = 1000
 
 #Store x,y,z values, note the random walk begins in origo
 x = [0] 
@@ -34,9 +34,10 @@ for i in range(0,num_of_steps):
     
     vec = rand_vec()
     
-    x.append(vec[0])
-    y.append(vec[1])
-    z.append(vec[2])
+    #The last position is also appended
+    x.append(x[i] + vec[0])
+    y.append(y[i] + vec[1])
+    z.append(z[i] + vec[2])
 
 #Three dimensional plot mabye try to plot in matlab instead? 
 fig = plt.figure()
