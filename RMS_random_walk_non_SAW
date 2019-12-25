@@ -81,16 +81,6 @@ if __name__ == "__main__":
     z = [0] * num_of_steps 
     res = rand_walk(x,y,z,num_of_steps)
     
-    #Store all the new x,y,z values
-    x_coord = res[0]
-    y_coord = res[1]
-    z_coord = res[2]
-    #coord = res[3]
-    
-    #Three dimensional plot
-#    fig = plt.figure()
-#    ax = plt.axes(projection='3d')
-#    ax.plot3D(x_coord, y_coord, z_coord, 'red')
     
     #Number of how many times the random walk shall be calculated
     num_rand = 4
