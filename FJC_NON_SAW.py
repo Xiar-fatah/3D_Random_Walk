@@ -38,14 +38,7 @@ if __name__ == "__main__":
     z = [0] 
     
     res = rand_walk(x,y,z, num_of_steps)
-    print(res)
-    #Checks the magntidue of each vector
-    store_coord = []
-    for i in range(0,num_of_steps+1):
-        store_coord.append([x[i],y[i],z[i]])
-        print(np.linalg.norm(store_coord))
-        store_coord = []
-        
+
     
     #Three dimensional plot mabye try to plot in matlab instead? 
     fig = plt.figure()
