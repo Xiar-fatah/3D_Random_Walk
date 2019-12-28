@@ -69,6 +69,40 @@ def rms_func(arr):
     #Square every element in the list,sum them, take the mean value and root
     rms = np.sqrt((np.sum(np.square(mag_vals)) / (len(mag_vals))))
     return rms
+
+#The root mean square fluctation is defined as rms_fluc = sqrt(rms-srm)
+#A function is made to calculate the root mean
+def srm(arr):
+    #Store the magnitude of each coordinate
+    mag_vals = []    
+    #Each coord is appended and the magnitude is calculated
+    for i in range(0, len(arr)):
+        mag_vals.append(np.linalg.norm(arr[i]))
+    #Sum every value in the list, take the mean
+    rm = np.sqrt(np.sum(mag_vals)/len(mag_vals))
+
+    return rm
+
+#A function is created to calculate the root mean fluctutation
+def rm_fluc(rms_arr,rm_arr):
+    #Store the values of the root mean fluctation
+    rm_fluc_arr = []
+    #A for loop is created to append the difference between
+    #(rms-rm**2)**0.5
+    for i in range(0,len(rms_arr)):
+        rm_fluc_arr.append(np.sqrt(rms_arr[i]-pow(rms_arr[i],2)))
+    
+    #Return rm_fluc to plot
+    return rm_fluc_arr
+
+#Standard error estimate is given by standard deviation / sqrt(n)
+#The standard deviation is given by sqrt(1/(n-1) * sum (R_i - mean_of_R  )**2)
+def err_est(rms_arr):
+    #to calculate the standard deviation numpy is used
+    std = np.std(rms_arr)
+    error_est_val = std/np.sqrt(len(rms_arr))
+    return error_est_val
+
     
 
 if __name__ == "__main__":
