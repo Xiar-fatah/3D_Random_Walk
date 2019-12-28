@@ -105,18 +105,38 @@ def err_est(rms_arr):
 
 #Radius of gyration is defined as 
 #Radius of gyration is the root mean square distance of particles from axis formula
-
+def radius(coord):
+    sum_vec= [0,0,0]
+    #Sums all the vectors
+    for i in range(0,len(coord)):
+        sum_vec[0] += coord[i][0]
+        sum_vec[1] += coord[i][1]
+        sum_vec[2] += coord[i][2]
+    #To find the radius of gyration, the vector* center of mass is needed which is given by
+    # r_g = 1/(N+1)sum r_i
+    r_g = np.divide(sum_vec, len(coord))
+    
+    
+    #Radius of gyration is given by
+    return 
+    
+    
+    
+    
+    
 if __name__ == "__main__":
     #Number of steps
-    num_of_steps = 100
+    num_of_steps =5
     
     #Store x,y,z values, note the random walk begins in origo
     x = [0] * num_of_steps
     y = [0] * num_of_steps
     z = [0] * num_of_steps 
     res = rand_walk(x,y,z,num_of_steps)
-    
-    
+    a = radius(res[3])
+    print(res[3])
+    print(a)
+  
     #Number of how many times the random walk shall be calculated
     num_rand = 4
     #Contains the last coordinate of each random walk
