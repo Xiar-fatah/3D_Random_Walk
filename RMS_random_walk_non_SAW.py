@@ -103,7 +103,8 @@ def err_est(rms_arr):
     error_est_val = std/np.sqrt(len(rms_arr))
     return error_est_val
 
-    
+#Radius of gyration is defined as 
+#Radius of gyration is the root mean square distance of particles from axis formula
 
 if __name__ == "__main__":
     #Number of steps
