@@ -130,41 +130,42 @@ def rms_func(arr):
 
 if __name__ == "__main__":
     
-    num_of_step = 30
-    x = [0] * num_of_step
-    y = [0] * num_of_step
-    z = [0] * num_of_step 
-    res = SAW(x,y,z,num_of_step)
-    print('x ' + str(res[0]))
-    print('y ' + str(res[1]))
-    print('z ' + str(res[2]))
-    print(res[3])
-#    step_num = [10,20]
-#    num_walks = 20
-#    
-#    #RMS plot
-#    #For each walk we wanna calculate the rms
-#
-#
-#    rms_store = []
-#    for num_of_step in step_num:
-#        #Contains the last coordinate of each random walk
-#        last_coord = []
-#        x = [0] * num_of_step
-#        y = [0] * num_of_step
-#        z = [0] * num_of_step 
-#        for w in range(0,num_walks):
-#            #Store the total list of x,y,z, coord
-#            store_val = SAW(x,y,z,num_of_step)
-#            #Appends last coordinate of each random walk
-#            last_coord.append(store_val[3][num_of_step-1])
-#        rms_store.append(rms_func(last_coord))
-#    
-#    plt.plot(step_num, rms_store, '*')
-#    plt.xlabel('Number of steps')
-#    plt.ylabel('Root mean square distance')
-#    plt.title('Root mean square for ' + str(num_walks) + ' of reruns.')
-#    
+#    num_of_step = 30
+#    x = [0] * num_of_step
+#    y = [0] * num_of_step
+#    z = [0] * num_of_step 
+#    res = SAW(x,y,z,num_of_step)
+#    print('x ' + str(res[0]))
+#    print('y ' + str(res[1]))
+#    print('z ' + str(res[2]))
+#    print(res[3])
+    step_num = [10,20,30,40,50,60,70]
+    num_walks = 20
+    
+    #RMS plot
+    #For each walk we wanna calculate the rms
+
+
+    rms_store = []
+    for num_of_step in step_num:
+        #Contains the last coordinate of each random walk
+        last_coord = []
+        x = [0] * num_of_step
+        y = [0] * num_of_step
+        z = [0] * num_of_step 
+        for w in range(0,num_walks):
+            #Store the total list of x,y,z, coord
+            store_val = SAW(x,y,z,num_of_step)
+            #Appends last coordinate of each random walk
+            last_coord.append(store_val[3][num_of_step-1])
+        rms_store.append(rms_func(last_coord))
+#    print(rms_store)
+    
+    plt.plot(step_num, rms_store, '*')
+    plt.xlabel('Number of steps')
+    plt.ylabel('Root mean square distance')
+    plt.title('Root mean square for ' + str(num_walks) + ' of reruns.')
+    
     
     
         
@@ -174,9 +175,9 @@ if __name__ == "__main__":
 #            if res[i] == res[w] and i != w:
 #                raise Exception('A duplicate was found')
 #    Three dimensional plot mabye try to plot in matlab instead? 
-    fig = plt.figure()
-    ax = plt.axes(projection='3d')
-    ax.plot3D(res[0], res[1], res[2], 'red')
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
-    ax.set_zlabel('z')
+#    fig = plt.figure()
+#    ax = plt.axes(projection='3d')
+#    ax.plot3D(res[0], res[1], res[2], 'red')
+#    ax.set_xlabel('x')
+#    ax.set_ylabel('y')
+#    ax.set_zlabel('z')
