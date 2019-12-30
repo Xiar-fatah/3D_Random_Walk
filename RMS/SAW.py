@@ -29,8 +29,11 @@ def SAW(x,y,z,n):
                 i = 0
                 counter += 1
                 coord = [[0,0,0]]
+                x = [0] * n
+                y = [0] * n
+                z = [0] * n
             #Else if next coordinates are not in coord, store values
-            else:
+            if [x[i]+1,y[i],z[i]] not in coord:
                 x[i+1] = x[i]+1
                 y[i+1] = y[i]
                 z[i+1] = z[i]
@@ -42,7 +45,10 @@ def SAW(x,y,z,n):
                 i = 0
                 counter += 1
                 coord = [[0,0,0]]
-            else:
+                x = [0] * n
+                y = [0] * n
+                z = [0] * n
+            if [x[i]-1,y[i],z[i]] not in coord:
                 x[i+1] = x[i]-1
                 y[i+1] = y[i]
                 z[i+1] = z[i]
@@ -53,7 +59,10 @@ def SAW(x,y,z,n):
                 i = 0
                 counter += 1
                 coord = [[0,0,0]]
-            else:
+                x = [0] * n
+                y = [0] * n
+                z = [0] * n
+            if [x[i],y[i]+1,z[i]] not in coord:
                 x[i+1] = x[i]
                 y[i+1] = y[i]+1
                 z[i+1] = z[i]
@@ -64,7 +73,10 @@ def SAW(x,y,z,n):
                 i = 0
                 counter += 1
                 coord = [[0,0,0]]
-            else:
+                x = [0] * n
+                y = [0] * n
+                z = [0] * n
+            if [x[i],y[i]-1,z[i]] not in coord:
                 x[i+1] = x[i]
                 y[i+1] = y[i]-1
                 z[i+1] = z[i]
@@ -75,7 +87,10 @@ def SAW(x,y,z,n):
                 i = 0
                 counter += 1
                 coord = [[0,0,0]]
-            else:
+                x = [0] * n
+                y = [0] * n
+                z = [0] * n
+            if [x[i],y[i],z[i]+1] not in coord:
                 x[i+1] = x[i]
                 y[i+1] = y[i]
                 z[i+1] = z[i]+1
@@ -86,7 +101,10 @@ def SAW(x,y,z,n):
                 i = 0
                 counter += 1
                 coord = [[0,0,0]]
-            else:
+                x = [0] * n
+                y = [0] * n
+                z = [0] * n
+            if [x[i],y[i],z[i]-1] not in coord:
                 x[i+1] = x[i]
                 y[i+1] = y[i]
                 z[i+1] = z[i]-1
@@ -94,7 +112,7 @@ def SAW(x,y,z,n):
         i += 1
         
         #If number of values in coord is equal to num_of_steps, stop
-        print(i)
+        
         if i == n-1:
             Bool = False
     return x,y,z,coord
@@ -112,11 +130,14 @@ def rms_func(arr):
 
 if __name__ == "__main__":
     
-    num_of_step = 5
+    num_of_step = 30
     x = [0] * num_of_step
     y = [0] * num_of_step
     z = [0] * num_of_step 
     res = SAW(x,y,z,num_of_step)
+    print('x ' + str(res[0]))
+    print('y ' + str(res[1]))
+    print('z ' + str(res[2]))
     print(res[3])
 #    step_num = [10,20]
 #    num_walks = 20
@@ -148,9 +169,9 @@ if __name__ == "__main__":
     
         
 #    #Check if there exist a duplicate in the coord list
-#    for i in range(0, len(coord)):
-#        for w in range(0,len(coord)):
-#            if coord[i] == coord[w] and i != w:
+#    for i in range(0, len(res[3])):
+#        for w in range(0,len(res[3])):
+#            if res[i] == res[w] and i != w:
 #                raise Exception('A duplicate was found')
 #    Three dimensional plot mabye try to plot in matlab instead? 
     fig = plt.figure()
