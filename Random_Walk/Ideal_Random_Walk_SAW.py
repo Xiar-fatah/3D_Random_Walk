@@ -1,13 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This is a temporary script file.
-"""
 from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
 #%matplotlib qt, for interactive
+from Modules import rms_func
+from Modules import rm_func
+from Modules import rms_fluc_func
 #Three dimensional random walk, SAW.
 
 
@@ -139,16 +136,18 @@ if __name__ == "__main__":
 #    print('y ' + str(res[1]))
 #    print('z ' + str(res[2]))
 #    print(res[3])
-    step_num = [10,20,30,40,50,60,70]
+    step_num = [10,20,30,40,50]
     num_walks = 20
     
     #RMS plot
     #For each walk we wanna calculate the rms
 
-
+    #RMS plot
+    #For each walk we wanna calculate the rms and rm
     rms_store = []
+    rm_store = []
     for num_of_step in step_num:
-        #Contains the last coordinate of each random walk
+        #Contains the last coordinate of each random walk and resets each for walk
         last_coord = []
         x = [0] * num_of_step
         y = [0] * num_of_step
@@ -158,14 +157,20 @@ if __name__ == "__main__":
             store_val = SAW(x,y,z,num_of_step)
             #Appends last coordinate of each random walk
             last_coord.append(store_val[3][num_of_step-1])
+        #calls rms_func with input last_coord
         rms_store.append(rms_func(last_coord))
-#    print(rms_store)
-    
-    plt.plot(step_num, rms_store, '*')
+        rm_store.append(rm_func(last_coord))
+        
+    #Plot of RMS, RM, RMS fluctuation
+    plt.plot(step_num, rms_store, '-')
+    plt.plot(step_num, rm_store, '-')
+    plt.plot(step_num, rms_fluc_func(rms_store,rm_store), '-')
+    #plt.plot(step_num, rms_fluc_func(rms_store,rm_store), '-')
+    plt.legend(("RMS", "RM", "RMS fluctuation"))
+
     plt.xlabel('Number of steps')
-    plt.ylabel('Root mean square distance')
-    plt.title('Root mean square for ' + str(num_walks) + ' of reruns.')
-    
+    plt.ylabel('Distance')
+    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
     
     
         
