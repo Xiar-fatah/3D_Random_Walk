@@ -112,18 +112,9 @@ def SAW(x,y,z,n):
         
         if i == n-1:
             Bool = False
-    return x,y,z,coord
+    return x,y,z,coord,counter
 
-def rms_func(arr):
-    
-    #Store the magnitude of each coordinate
-    mag_vals = []    
-    #Each coord is appended and the magnitude is calculated
-    for i in range(0, len(arr)):
-        mag_vals.append(np.linalg.norm(arr[i]))
-    #Square every element in the list,sum them, take the mean value and root
-    rms = np.sqrt((np.sum(np.square(mag_vals)) / (len(mag_vals))))
-    return rms    
+
 
 if __name__ == "__main__":
     
@@ -137,7 +128,7 @@ if __name__ == "__main__":
 #    print('z ' + str(res[2]))
 #    print(res[3])
     step_num = [10,20,30,40,50]
-    num_walks = 20
+    num_walks = 50
     
     #RMS plot
     #For each walk we wanna calculate the rms
@@ -146,9 +137,12 @@ if __name__ == "__main__":
     #For each walk we wanna calculate the rms and rm
     rms_store = []
     rm_store = []
+    counter_store = []
     for num_of_step in step_num:
         #Contains the last coordinate of each random walk and resets each for walk
         last_coord = []
+        #Store counter values temporary
+        count = []
         x = [0] * num_of_step
         y = [0] * num_of_step
         z = [0] * num_of_step 
@@ -157,11 +151,15 @@ if __name__ == "__main__":
             store_val = SAW(x,y,z,num_of_step)
             #Appends last coordinate of each random walk
             last_coord.append(store_val[3][num_of_step-1])
+            count.append(store_val[4])
+        counter_store.append(np.sum(count)/len(count))
+            
         #calls rms_func with input last_coord
         rms_store.append(rms_func(last_coord))
         rm_store.append(rm_func(last_coord))
         
     #Plot of RMS, RM, RMS fluctuation
+    plt.figure()
     plt.plot(step_num, rms_store, '-')
     plt.plot(step_num, rm_store, '-')
     plt.plot(step_num, rms_fluc_func(rms_store,rm_store), '-')
@@ -172,6 +170,11 @@ if __name__ == "__main__":
     plt.ylabel('Distance')
     plt.title('Measurements for ' + str(num_walks) + ' reruns.')
     
+    plt.figure()
+    plt.plot(step_num, np.reciprocal(counter_store), '-')
+    plt.xlabel('Number of steps')
+    plt.ylabel('Fraction of Success')
+    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
     
         
 #    #Check if there exist a duplicate in the coord list
