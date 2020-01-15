@@ -1,6 +1,6 @@
-
-
-import random
+from IPython import get_ipython
+get_ipython().magic('reset -sf')
+from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -21,9 +21,9 @@ def rand_walk(N):
                 i=0
                 while i <n:
                     counter=0    
-                    Dir[0]=np.random.normal(0,1,1)
-                    Dir[1]=np.random.normal(0,1,1)
-                    Dir[2]=np.random.normal(0,1,1)
+                    for i in range(0,3):
+                        Dir[i] = np.random.normal(0,1,1)
+
                     Dir=np.divide(Dir,(Dir[1]**2+Dir[2]**2+Dir[0]**2)**0.5)
                     
                 
@@ -45,14 +45,13 @@ def rand_walk(N):
                     if i == n-1:
                         Done = True
                     i = i + 1        
-    return x , y, z 
+    return x, y, z 
     
 if __name__ == "__main__":
     
     num_of_step = [10]
     res = rand_walk(num_of_step)
 
-    
     
     fig = plt.figure()
     ax = fig.gca(projection='3d')

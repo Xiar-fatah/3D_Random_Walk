@@ -26,7 +26,7 @@ if __name__ == "__main__":
     
     #FJC random walk
     #res = rand_walk(num_of_step)
-    res = rand_walk(x_fjc,y_fjc,z_fjc,num_of_step)
+    res = rand_walk(num_of_step)
     #Plot
     fig = plt.figure()
     ax = fig.gca(projection='3d')
