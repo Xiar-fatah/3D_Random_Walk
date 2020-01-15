@@ -22,8 +22,8 @@ def rand_walk(n):
         
         #Appends the normalized random vector
         x.append(vec[0] + x[i])
-        y.append(vec[1]+y[i])
-        z.append(vec[2]+z[i])
+        y.append(vec[1] + y[i])
+        z.append(vec[2] + z[i])
         coord.append([x[i+1],y[i+1],z[i+1]])
         
         

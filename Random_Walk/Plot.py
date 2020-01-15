@@ -15,12 +15,17 @@ if __name__ == "__main__":
     x_fjc = [0]
     y_fjc = [0]
     z_fjc = [0]
+    
+    #Double check what the inputs shall be
+    
     #Ideal random walk
     #res = rand_walk(x,y,z,num_of_step)
+    
     #SAW random walk
-    #res = SAW(x,y,z,num_of_step)
+    #res = SAW(num_of_step)
+    
     #FJC random walk
-    #res = rand_walk(x,y,z,num_of_step)
+    #res = rand_walk(num_of_step)
     res = rand_walk(x_fjc,y_fjc,z_fjc,num_of_step)
     #Plot
     fig = plt.figure()
