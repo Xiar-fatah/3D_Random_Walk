@@ -125,7 +125,7 @@ if __name__ == "__main__":
     
 
     step_num = [10,20,30,40,50]
-    num_walks = 50
+    num_walks = 40
     
 
 

@@ -10,16 +10,21 @@ from Modules import err_est_func
 from Modules import radius
 #Freely jointed chain, Non SAW
 
-def rand_walk(x,y,z,n):
+def rand_walk(n):
     coord = [[0,0,0]]
+    x = [0]
+    y = [0]
+    z = [0]
     for i in range(0,n):
         
+        #Generates a normalized random vector
         vec = rand_vec()
         
-        x.append(x[i]+vec[0])
-        y.append(y[i]+vec[1])
-        z.append(z[i]+vec[2])
-        coord.append([x[i]+vec[0],y[i]+vec[1],z[i]+vec[2]])
+        #Appends the normalized random vector
+        x.append(vec[0] + x[i])
+        y.append(vec[1]+y[i])
+        z.append(vec[2]+z[i])
+        coord.append([x[i+1],y[i+1],z[i+1]])
         
         
     
@@ -42,6 +47,8 @@ def rand_vec():
     
 if __name__ == "__main__":
     step_num = [10,50,100,200,300,400,500,600,700,800]
+    #step_num = [10,20]
+    test = np.sqrt(step_num)
     num_walks = 20
     
 
@@ -53,18 +60,14 @@ if __name__ == "__main__":
     for num_of_step in step_num:
         #Contains the last coordinate of each random walk and resets each for walk
         last_coord = []
-        x = [0]
-        y = [0] 
-        z = [0] 
         radius_store = []
 
         for w in range(0,num_walks):
             #Store the total list of x,y,z, coord
-            store_val = rand_walk(x,y,z,num_of_step)
+            store_val = rand_walk(num_of_step)
             #Appends last coordinate of each random walk
             last_coord.append(store_val[3][num_of_step-1])
             radius_store.append(radius(store_val[3]))
-
 
         #calls rms_func with input last_coord
         rms_store.append(rms_func(last_coord))
@@ -75,18 +78,20 @@ if __name__ == "__main__":
     #Plot of RMS, RM, RMS, SEE fluctuation
     plt.figure()
     plt.plot(step_num, rms_store, '-')
-    plt.plot(step_num, rm_store, '-')
-    plt.plot(step_num, rms_fluc_func(rms_store,rm_store,num_walks), '-')
-    plt.plot(step_num, err_est_func(rms_store,rm_store,num_walks), '-')
-    plt.plot(step_num, radius_mean_store, '-')
-    plt.legend(("RMS", "RM", "RMS fluctuation", "SEE","RoG"))
-    plt.xlabel('Number of steps')
-    plt.ylabel('Distance')
-    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
-
-    plt.xlabel('Number of steps')
-    plt.ylabel('Distance')
-    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
+#    plt.plot(step_num, rm_store, '-')
+#    plt.plot(step_num, rms_fluc_func(rms_store,rm_store,num_walks), '-')
+#    plt.plot(step_num, err_est_func(rms_store,rm_store,num_walks), '-')
+#    plt.plot(step_num, radius_mean_store, '-')
+#    plt.legend(("RMS", "RM", "RMS fluctuation", "SEE","RoG"))
+#    plt.xlabel('Number of steps')
+#    plt.ylabel('Distance')
+#    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
+#    
+#    plt.xlabel('Number of steps')
+#    plt.ylabel('Distance')
+#    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
+#    
+    plt.plot(step_num,test)
     
     #Three dimensional plot mabye try to plot in matlab instead? 
 #    fig = plt.figure()
