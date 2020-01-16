@@ -49,7 +49,7 @@ if __name__ == "__main__":
     step_num = [10,50,100,200,300,400,500,600,700,800]
     #step_num = [10,20]
     test = np.sqrt(step_num)
-    num_walks = 20
+    num_walks = 100
     
 
     #For each walk we wanna calculate the rms and rm
@@ -78,6 +78,9 @@ if __name__ == "__main__":
     #Plot of RMS, RM, RMS, SEE fluctuation
     plt.figure()
     plt.plot(step_num, rms_store, '-')
+    plt.title("FJC-NON-SAW for " + str(num_walks) + " reruns" )
+    plt.xlabel('x')
+    plt.ylabel('y')
 #    plt.plot(step_num, rm_store, '-')
 #    plt.plot(step_num, rms_fluc_func(rms_store,rm_store,num_walks), '-')
 #    plt.plot(step_num, err_est_func(rms_store,rm_store,num_walks), '-')

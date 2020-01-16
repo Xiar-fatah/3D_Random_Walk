@@ -10,7 +10,8 @@ from Modules import rm_func
 from Modules import rms_fluc_func
 from Modules import err_est_func
 from Modules import radius
-
+from Modules import center
+from Modules import test_radius
 def rand_vec(): #Generates a normalized 3d vector with the help of np.random.normal(0,1,1)
     #vec[0] = x, vec[1] = y ....
     vec = []
@@ -54,47 +55,65 @@ def rand_walk(num_of_step, r):
             z.append(vec_len[2])
             if i == num_of_step-1:
                 Boolean = True
-            i = i + 1      
+            i = i + 1   
     return x, y, z, coord, fails
     
 if __name__ == "__main__":
-    step_num = [10,30,50,70,100,200]
+    step_num = [10,15,20,25,30,35,40,45,50,55,60,65,70]
 #    step_num = [10,20]
-    num_walks = 20
+    num_walks = 1000
     r = 0.1 #Radius of the sphere
 
-
+    
     #For each walk we wanna calculate the rms and rm
     rms_store = []
     rm_store = []
     radius_mean_store = []
     counter_store = []
+    #test
+    test_radius_mean = []
     for num_of_step in step_num:
         #Contains the last coordinate of each random walk and resets each for walk
         last_coord = []
         radius_store = []
         count = []
+        test_radius_store = []
         for w in range(0,num_walks):
             #Store the total list of x,y,z, coord
             store_val = rand_walk(num_of_step, r)
             
             #Appends last coordinate of each random walk
             last_coord.append(store_val[3][num_of_step-1])
+            #Store R_g^2 in radius_store for each rerun
             radius_store.append(radius(store_val[3]))
+            #Appends the amount of failed runs
             count.append(store_val[4])
+
+            
         #calls rms_func with input last_coord
         counter_store.append(np.sum(count)/len(count))
         rms_store.append(rms_func(last_coord))
         rm_store.append(rm_func(last_coord))
         radius_mean_store.append(np.sum(radius_store)/(len(radius_store)))
-    #Plot of RMS, RM, RMS, SEE fluctuation
-    plt.figure()
-    plt.plot(step_num, rms_store, '-')
+ 
     
-    #Plot for fraction of success
-    plt.figure()
-    plt.plot(step_num, np.reciprocal(counter_store), '-')
+    
+    for i in range(0,len(radius_mean_store)):
+        print((6*radius_mean_store[i]/(rms_store[i])))
+        
+    #Plot of RMS, RM, RMS, SEE fluctuation
+    plt.plot(step_num, rms_store, '-')
+#    plt.plot(step_num, test_radius_mean, '-')
+    plt.legend(("RMS"))
     plt.xlabel('Number of steps')
-    plt.ylabel('Fraction of Success')
+    plt.ylabel('Distance')
     plt.title('Measurements for ' + str(num_walks) + ' reruns.')
+    
+    
+#    #Plot for fraction of success
+#    plt.figure()
+#    plt.plot(step_num, np.reciprocal(counter_store), '-')
+#    plt.xlabel('Number of steps')
+#    plt.ylabel('Fraction of Success')
+#    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
     

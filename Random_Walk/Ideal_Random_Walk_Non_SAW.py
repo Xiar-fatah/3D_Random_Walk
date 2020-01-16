@@ -12,7 +12,10 @@ from Modules import radius
 #Three dimensional random walk, not SAW.
 
 #Calculates and stores all values of the coordinates
-def rand_walk(x,y,z,num_of_steps):
+def rand_walk(num_of_steps):
+    x = [0] * num_of_steps
+    y = [0] * num_of_steps
+    z = [0] * num_of_steps
     coord = [[0,0,0]]
     
     for i in range(0,num_of_steps-1):
@@ -65,8 +68,8 @@ def rand_walk(x,y,z,num_of_steps):
     
 if __name__ == "__main__":
 
-    step_num = [10,20,30,40,50]
-    num_walks = 40
+    step_num = [100,200,300,400,500,600,700,800,900,1000]
+    num_walks = 100
     
     #RMS plot
     #For each walk we wanna calculate the rms and rm
@@ -97,11 +100,11 @@ if __name__ == "__main__":
     #Plot of RMS, RM, RMS fluctuation, SEE, RoG
     plt.figure()
     plt.plot(step_num, rms_store, '-')
-    plt.plot(step_num, rm_store, '-')
-    plt.plot(step_num, rms_fluc_func(rms_store,rm_store,num_walks), '-')
-    plt.plot(step_num, err_est_func(rms_store,rm_store,num_walks), '-')
-    plt.plot(step_num, radius_mean_store, '-')
-    plt.legend(("RMS", "RM", "RMS fluctuation", "SEE","RoG"))
+#    plt.plot(step_num, rm_store, '-')
+#    plt.plot(step_num, rms_fluc_func(rms_store,rm_store,num_walks), '-')
+#    plt.plot(step_num, err_est_func(rms_store,rm_store,num_walks), '-')
+#    plt.plot(step_num, radius_mean_store, '-')
+    plt.legend(("RMS"))
 
 
     plt.xlabel('Number of steps')

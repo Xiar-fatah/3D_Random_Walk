@@ -14,7 +14,10 @@ from Modules import radius
 
 
 #For SAW the random walk needs to check previous steps
-def SAW(x,y,z,n):
+def SAW(n):
+    x = [0] * n
+    y = [0] * n
+    z = [0] * n 
     #Store the coordinates, the first coordinate will be in the origo
     coord = [[0,0,0]]
     counter = 0
@@ -124,8 +127,8 @@ def SAW(x,y,z,n):
 if __name__ == "__main__":
     
 
-    step_num = [10,20,30,40,50]
-    num_walks = 40
+    step_num = [10,15,20,25,30,35,40,45,50]
+    num_walks = 1000
     
 
 
@@ -140,14 +143,11 @@ if __name__ == "__main__":
         last_coord = []
         #Store counter values temporary
         count = []
-        x = [0] * num_of_step
-        y = [0] * num_of_step
-        z = [0] * num_of_step 
         radius_store = []
 
         for w in range(0,num_walks):
             #Store the total list of x,y,z, coord
-            store_val = SAW(x,y,z,num_of_step)
+            store_val = SAW(num_of_step)
             #Appends last coordinate of each random walk
             last_coord.append(store_val[3][num_of_step-1])
             count.append(store_val[4])
@@ -164,36 +164,26 @@ if __name__ == "__main__":
          #Calculating the mean value for each step number and storing them in radius_mean_store
         radius_mean_store.append(np.sum(radius_store)/(len(radius_store)))
         
-        
+    print(rms_store)
     #Plot of RMS, RM, RMS, SEE fluctuation
     plt.figure()
     plt.plot(step_num, rms_store, '-')
-    plt.plot(step_num, rm_store, '-')
-    plt.plot(step_num, rms_fluc_func(rms_store,rm_store,num_walks), '-')
-    plt.plot(step_num, err_est_func(rms_store,rm_store,num_walks), '-')
-    plt.plot(step_num, radius_mean_store, '-')
-    plt.legend(("RMS", "RM", "RMS fluctuation", "SEE","RoG"))
-    plt.xlabel('Number of steps')
-    plt.ylabel('Distance')
-    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
+    plt.title("Ideal SAW for " + str(num_walks) + " reruns" )
+    plt.xlabel('x')
+    plt.ylabel('y')
+#    plt.plot(step_num, rm_store, '-')
+#    plt.plot(step_num, rms_fluc_func(rms_store,rm_store,num_walks), '-')
+#    plt.plot(step_num, err_est_func(rms_store,rm_store,num_walks), '-')
+#    plt.plot(step_num, radius_mean_store, '-')
+#    plt.legend(("RMS", "RM", "RMS fluctuation", "SEE","RoG"))
+#    plt.xlabel('Number of steps')
+#    plt.ylabel('Distance')
+#    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
     
     #Plot for fraction of success
-    plt.figure()
-    plt.plot(step_num, np.reciprocal(counter_store), '-')
-    plt.xlabel('Number of steps')
-    plt.ylabel('Fraction of Success')
-    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
+#    plt.figure()
+#    plt.plot(step_num, np.reciprocal(counter_store), '-')
+#    plt.xlabel('Number of steps')
+#    plt.ylabel('Fraction of Success')
+#    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
     
-        
-#    #Check if there exist a duplicate in the coord list
-#    for i in range(0, len(res[3])):
-#        for w in range(0,len(res[3])):
-#            if res[i] == res[w] and i != w:
-#                raise Exception('A duplicate was found')
-#    Three dimensional plot mabye try to plot in matlab instead? 
-#    fig = plt.figure()
-#    ax = plt.axes(projection='3d')
-#    ax.plot3D(res[0], res[1], res[2], 'red')
-#    ax.set_xlabel('x')
-#    ax.set_ylabel('y')
-#    ax.set_zlabel('z')

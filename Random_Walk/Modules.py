@@ -31,6 +31,8 @@ def err_est_func(rms_arr,rm_arr,walks):
     #Return rm_fluc to plot
     return err_est_arr
 
+
+
 #Radius of gyration is defined as 
 #Radius of gyration is the root mean square distance of particles from axis formula
 def center(coord):
@@ -44,25 +46,49 @@ def center(coord):
     # r_g = 1/(N+1)sum r_i
     r_g = np.divide(sum_vec, len(coord)+1)
     
-    
+
     #Center of mass for the random walk is returned
     return r_g
+    
+def test_radius(coord):
+    sum_vec= [0,0,0]
+    #Sums all the vectors
+    for i in range(0,len(coord)):
+        sum_vec[0] += coord[i][0]
+        sum_vec[1] += coord[i][1]
+        sum_vec[2] += coord[i][2]
+    #To find the radius of gyration, the vector* center of mass is needed which is given by
+    # r_g = 1/(N+1)sum r_i
+    r_g = np.divide(sum_vec, len(coord)+1)
+    
+
+    #Center of mass for the random walk is returned
+    return pow(r_g,2)
 
 def radius(coord):
-    center_of_mass = center(coord)
-    #Store the value (r_i-r_g)**2
+    center_of_mass = center(coord) #beräknar center of mass
+    #Store the value (r_i-r_g)^2
     val_store = []
+    #CALCULATING (r_i - r_g)^2
     for i in range(0,len(coord)):
         #Store each vector component for r_i - r_g
         vec_store = [0,0,0]
         for w in range(0,3):
-            vec_store.append(coord[i][w]-center_of_mass[w])
+            vec_store[w] = (coord[i][w]-center_of_mass[w])
+
         #np.linalg.norm(arr[i]) is used to calculate the magnitude of a vector
-        val_store.append(np.linalg.norm(vec_store)**2)
-    # sqrt(1/(N+1)^2 * summuation of (r_i-r_g)^2)
-    radius_of_gyration = np.sqrt( np.sum(val_store) / (pow(len(coord)+1,2)))
-    
-    return radius_of_gyration
+        ##CALCULATING each (r_i - r_g)^2
+        val_store.append(pow(np.linalg.norm(vec_store),2))
+    #Summation of the total (r_i - r_g)^2
+    val_store = np.sum(val_store)
+    #Dividing the sum by 1/(N+1) and this is equal to radius of gyration
+    #Note this is not the average radius of gyration which is <R_g^2>
+    val_store = np.divide(val_store,len(coord)+1)
+    #This is <(r_i-r_g)^2>
+    ROG_temp = np.sqrt(val_store)
+
+    return ROG_temp
+        
         
 
 #The root mean square fluctation is defined as rms_fluc = sqrt(rms-srm)
@@ -94,6 +120,7 @@ def rms_func(arr):
     for i in range(0, len(arr)):
         mag_vals.append(np.linalg.norm(arr[i]))
     #Square every element in the list,sum them, take the mean value and root
+    #This is sqrt()
     rms = np.sqrt((np.sum(np.square(mag_vals)) / (len(mag_vals))))
     return rms    
 
