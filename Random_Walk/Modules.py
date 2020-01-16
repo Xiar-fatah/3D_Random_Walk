@@ -50,21 +50,8 @@ def center(coord):
     #Center of mass for the random walk is returned
     return r_g
     
-def test_radius(coord):
-    sum_vec= [0,0,0]
-    #Sums all the vectors
-    for i in range(0,len(coord)):
-        sum_vec[0] += coord[i][0]
-        sum_vec[1] += coord[i][1]
-        sum_vec[2] += coord[i][2]
-    #To find the radius of gyration, the vector* center of mass is needed which is given by
-    # r_g = 1/(N+1)sum r_i
-    r_g = np.divide(sum_vec, len(coord)+1)
-    
 
-    #Center of mass for the random walk is returned
-    return pow(r_g,2)
-
+#
 def radius(coord):
     center_of_mass = center(coord) #beräknar center of mass
     #Store the value (r_i-r_g)^2
@@ -74,7 +61,7 @@ def radius(coord):
         #Store each vector component for r_i - r_g
         vec_store = [0,0,0]
         for w in range(0,3):
-            vec_store[w] = (coord[i][w]-center_of_mass[w])
+            vec_store[w] = (center_of_mass[w]-coord[i][w])
 
         #np.linalg.norm(arr[i]) is used to calculate the magnitude of a vector
         ##CALCULATING each (r_i - r_g)^2
@@ -87,7 +74,7 @@ def radius(coord):
     #This is <(r_i-r_g)^2>
     ROG_temp = np.sqrt(val_store)
 
-    return ROG_temp
+    return val_store
         
         
 
@@ -123,6 +110,70 @@ def rms_func(arr):
     #This is sqrt()
     rms = np.sqrt((np.sum(np.square(mag_vals)) / (len(mag_vals))))
     return rms    
+##################test##############
+def rms_func_test(arr):
+    
+    #Store the magnitude of each coordinate
+    mag_vals = []    
+    #Each coord is appended and the magnitude is calculated
+    for i in range(0, len(arr)):
+        mag_vals.append(np.linalg.norm(arr[i]))
+    #Square every element in the list,sum them, take the mean value and root
+    #This is sqrt()
+    rms = (np.sum(np.square(mag_vals))/len(mag_vals))
+    return rms    
+
+
+def radius_test(coord):
+    center_of_mass = center(coord) #beräknar center of mass
+    #Store the value (r_i-r_g)^2
+    val_store = []
+    #CALCULATING (r_i - r_g)^2
+    for i in range(0,len(coord)):
+        #Store each vector component for r_i - r_g
+        vec_store = [0,0,0]
+        for w in range(0,3):
+            vec_store[w] = (center_of_mass[w]-coord[i][w])
+
+        #np.linalg.norm(arr[i]) is used to calculate the magnitude of a vector
+        ##CALCULATING each (r_i - r_g)^2
+        val_store.append(pow(np.linalg.norm(vec_store),2))
+    #Summation of the total (r_i - r_g)^2
+    val_store = np.sum(val_store)
+    #Dividing the sum by 1/(N+1) and this is equal to radius of gyration
+    #Note this is not the average radius of gyration which is <R_g^2>
+    val_store = np.divide(val_store,len(coord)+1)
+    #This is <(r_i-r_g)^2>
+
+    return val_store
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
