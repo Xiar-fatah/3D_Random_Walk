@@ -5,13 +5,8 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
 #Importing measurements from Modules
-from Modules import rms_func
-from Modules import rm_func
-from Modules import rms_fluc_func
-from Modules import err_est_func
-from Modules import radius
-from Modules import center
-from Modules import test_radius
+from Modules import ROG
+from Modules import rms
 def rand_vec(): #Generates a normalized 3d vector with the help of np.random.normal(0,1,1)
     #vec[0] = x, vec[1] = y ....
     vec = []
@@ -61,53 +56,106 @@ def rand_walk(num_of_step, r):
 if __name__ == "__main__":
     step_num = [10,15,20,25,30,35,40,45,50,55,60,65,70]
 #    step_num = [10,20]
-    num_walks = 1000
+    M = 100
     r = 0.1 #Radius of the sphere
 
     
+
     #For each walk we wanna calculate the rms and rm
     rms_store = []
-    rm_store = []
     radius_mean_store = []
+    
+    
+    #Store counter or the amount of successful walks
     counter_store = []
-    #test
-    test_radius_mean = []
+
+    #För varje antalet steg i step_num skall den itera 10,15,20...
     for num_of_step in step_num:
         #Contains the last coordinate of each random walk and resets each for walk
         last_coord = []
-        radius_store = []
+        #How many failed attempts
+        radius_temp_store= []
+        #Temporary store the count to take the average value
         count = []
-        test_radius_store = []
-        for w in range(0,num_walks):
+
+        #För antalet num_walks/reruns
+        for w in range(0,M):
             #Store the total list of x,y,z, coord
             store_val = rand_walk(num_of_step, r)
             
             #Appends last coordinate of each random walk
             last_coord.append(store_val[3][num_of_step-1])
-            #Store R_g^2 in radius_store for each rerun
-            radius_store.append(radius(store_val[3]))
+            #Store r_g in radius_store for each rerun
+            radius_temp_store.append(ROG(store_val[3]))
             #Appends the amount of failed runs
             count.append(store_val[4])
 
-            
-        #calls rms_func with input last_coord
+        #Takes the average of the count
         counter_store.append(np.sum(count)/len(count))
-        rms_store.append(rms_func(last_coord))
-        rm_store.append(rm_func(last_coord))
-        radius_mean_store.append(np.sum(radius_store)/(len(radius_store)))
+
+        #calls rms_func with input last_coord
+        rms_store.append(rms(last_coord)[0])
  
-    
-    
-    for i in range(0,len(radius_mean_store)):
-        print((6*radius_mean_store[i]/(rms_store[i])))
+        #Nu skall radius_temp_store summeras och delas på antalet reruns
+        mean_radius = np.sum(radius_temp_store)/M
+        radius_mean_store.append(mean_radius)
         
-    #Plot of RMS, RM, RMS, SEE fluctuation
-    plt.plot(step_num, rms_store, '-')
-#    plt.plot(step_num, test_radius_mean, '-')
-    plt.legend(("RMS"))
-    plt.xlabel('Number of steps')
-    plt.ylabel('Distance')
-    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
+        
+    #Dubbelkollar så att 6*R_g^2/R_F^2 = 1
+    for i in range(0,len(radius_mean_store)):
+        print((6*radius_mean_store[i])/(rms_store[i]))
+
+
+    plt.plot(step_num, np.reciprocal(counter_store), color = 'red')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 #    #Plot for fraction of success

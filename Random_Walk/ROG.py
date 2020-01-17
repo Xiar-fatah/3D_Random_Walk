@@ -5,9 +5,9 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
 #Importing measurements from Modules
-from Modules import rms_func
-from Modules import rm_func
-from Modules import rms_fluc_func
+from old_modules import rms_func
+from old_modules import rm_func
+from old_modulesimport rms_fluc_func
 from Modules import err_est_func
 from Modules import radius
 from Modules import center
@@ -63,21 +63,27 @@ if __name__ == "__main__":
     step_num = [10,15,20,25,30,35,40,45,50,55,60,65,70]
 #    step_num = [10,20]
     M = 1000
-    r = 0.05 #Radius of the sphere
+    r = 0.1 #Radius of the sphere
 
     
-#        for i in range(0,len(radius_mean_store)):
-#            print((6*radius_mean_store[i])/(rms_store[i]))
 
     #For each walk we wanna calculate the rms and rm
     rms_store = []
     radius_mean_store = []
+    
+    
+    #Store counter or the amount of successful walks
+    counter_store = []
+
     #För varje antalet steg i step_num skall den itera 10,15,20...
     for num_of_step in step_num:
         #Contains the last coordinate of each random walk and resets each for walk
         last_coord = []
         #How many failed attempts
         radius_temp_store= []
+        #Temporary store the count to take the average value
+        count = []
+
         #För antalet num_walks/reruns
         for w in range(0,M):
             #Store the total list of x,y,z, coord
@@ -88,7 +94,10 @@ if __name__ == "__main__":
             #Store r_g in radius_store for each rerun
             radius_temp_store.append(radius_test(store_val[3]))
             #Appends the amount of failed runs
+            count.append(store_val[4])
 
+        #Takes the average of the count
+        counter_store.append(np.sum(count)/len(count))
 
         #calls rms_func with input last_coord
         rms_store.append(rms_func_test(last_coord))
@@ -96,11 +105,14 @@ if __name__ == "__main__":
         #Nu skall radius_temp_store summeras och delas på antalet reruns
         mean_radius = np.sum(radius_temp_store)/M
         radius_mean_store.append(mean_radius)
+        
+        
+    #Dubbelkollar så att 6*R_g^2/R_F^2 = 1
     for i in range(0,len(radius_mean_store)):
         print((6*radius_mean_store[i])/(rms_store[i]))
 
 
-
+    plt.plot(step_num, np.reciprocal(counter_store), color = 'red')
 
 
 

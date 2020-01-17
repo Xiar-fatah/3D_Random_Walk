@@ -3,11 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #Importing measurements from Modules
-from Modules import rms_func
-from Modules import rm_func
-from Modules import rms_fluc_func
-from Modules import err_est_func
-from Modules import radius
+from Modules import rms
+from Modules import rm
+from Modules import ROG
+from Modules import SEE_R_F
 
 #Three dimensional random walk, not SAW.
 
@@ -85,21 +84,24 @@ if __name__ == "__main__":
         radius_store = []
         for w in range(0,num_walks):
             #Store the total list of x,y,z, coord
-            store_val = rand_walk(x,y,z,num_of_step)
+            store_val = rand_walk(num_of_step)
             #Appends last coordinate of each random walk
             last_coord.append(store_val[3][num_of_step-1])
             #Calculating each radius of gyration and storing them in radius_store
-            radius_store.append(radius(store_val[3]))
+            radius_store.append(ROG(store_val[3]))
         #calls rms_func with input last_coord
-        rms_store.append(rms_func(last_coord))
-        rm_store.append(rm_func(last_coord))
+        rms_store.append(rms(last_coord)[0])
+        rm_store.append(rm(last_coord))
         
         #Calculating the mean value for each step number and storing them in radius_mean_store
         radius_mean_store.append(np.sum(radius_store)/(len(radius_store)))
-        
+    
+    SEE = SEE_R_F(rms_store,rm_store,num_walks)
+    
     #Plot of RMS, RM, RMS fluctuation, SEE, RoG
     plt.figure()
-    plt.plot(step_num, rms_store, '-')
+#    plt.plot(step_num, rms_store, '-')
+    plt.plot(step_num,SEE)
 #    plt.plot(step_num, rm_store, '-')
 #    plt.plot(step_num, rms_fluc_func(rms_store,rm_store,num_walks), '-')
 #    plt.plot(step_num, err_est_func(rms_store,rm_store,num_walks), '-')

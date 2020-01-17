@@ -3,11 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #Importing measurements from Modules
-from Modules import rms_func
-from Modules import rm_func
-from Modules import rms_fluc_func
-from Modules import err_est_func
-from Modules import radius
+from Modules import rms
+from Modules import rm
+from Modules import ROG
+from Modules import SEE_R_F
 #Freely jointed chain, Non SAW
 
 def rand_walk(n):
@@ -46,10 +45,10 @@ def rand_vec():
 
     
 if __name__ == "__main__":
-    step_num = [10,50,100,200,300,400,500,600,700,800]
+    step_num = [10,20,30,40,50,60,70,80,90,100]
     #step_num = [10,20]
     test = np.sqrt(step_num)
-    num_walks = 100
+    num_walks = 1000
     
 
     #For each walk we wanna calculate the rms and rm
@@ -67,14 +66,17 @@ if __name__ == "__main__":
             store_val = rand_walk(num_of_step)
             #Appends last coordinate of each random walk
             last_coord.append(store_val[3][num_of_step-1])
-            radius_store.append(radius(store_val[3]))
+            radius_store.append(ROG(store_val[3]))
 
         #calls rms_func with input last_coord
-        rms_store.append(rms_func(last_coord))
-        rm_store.append(rm_func(last_coord))
+        rms_store.append(rms(last_coord)[0])
+        rm_store.append(rm(last_coord))
         radius_mean_store.append(np.sum(radius_store)/(len(radius_store)))
+    
+    
+    SEE = SEE_R_F(rms_store,rm_store,num_walks)
+    plt.plot(step_num,SEE)
 
-        
     #Plot of RMS, RM, RMS, SEE fluctuation
     plt.figure()
     plt.plot(step_num, rms_store, '-')

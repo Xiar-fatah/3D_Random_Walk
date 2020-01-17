@@ -180,10 +180,10 @@ if __name__ == "__main__":
 #    plt.ylabel('Distance')
 #    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
     
-    #Plot for fraction of success
-#    plt.figure()
-#    plt.plot(step_num, np.reciprocal(counter_store), '-')
-#    plt.xlabel('Number of steps')
-#    plt.ylabel('Fraction of Success')
-#    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
+#    Plot for fraction of success
+    plt.figure()
+    plt.plot(step_num, np.reciprocal(counter_store), c = 'r')
+    plt.xlabel('Number of steps')
+    plt.ylabel('Fraction of Success')
+    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
     
