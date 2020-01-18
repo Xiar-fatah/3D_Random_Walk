@@ -7,6 +7,8 @@ import numpy as np
 #Importing measurements from Modules
 from Modules import ROG
 from Modules import rms
+from Modules import rm
+from Modules import SEE_R_F
 def rand_vec(): #Generates a normalized 3d vector with the help of np.random.normal(0,1,1)
     #vec[0] = x, vec[1] = y ....
     vec = []
@@ -44,7 +46,7 @@ def rand_walk(num_of_step, r):
             if counter > 0:
                 fails += 1
                 break #Breaks out of while i < num_of_step: and restarts
-            coord.append([vec_len[0], vec_len[1], vec_len[2]])
+            coord.append([vec_len[0], vec_len[1], vec_len[2]]) 
             x.append(vec_len[0])
             y.append(vec_len[1])
             z.append(vec_len[2])
@@ -54,16 +56,18 @@ def rand_walk(num_of_step, r):
     return x, y, z, coord, fails
     
 if __name__ == "__main__":
-    step_num = [10,15,20,25,30,35,40,45,50,55,60,65,70]
+    step_num = [10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100]
 #    step_num = [10,20]
-    M = 100
-    r = 0.1 #Radius of the sphere
+    M = 1000
+    r = 0.07 #Radius of the sphere
 
     
 
     #For each walk we wanna calculate the rms and rm
     rms_store = []
-    radius_mean_store = []
+    radius_mean_store = []    
+    rm_store = []
+
     
     
     #Store counter or the amount of successful walks
@@ -95,12 +99,16 @@ if __name__ == "__main__":
 
         #calls rms_func with input last_coord
         rms_store.append(rms(last_coord)[0])
- 
+        rm_store.append(rm(last_coord))
+
         #Nu skall radius_temp_store summeras och delas på antalet reruns
         mean_radius = np.sum(radius_temp_store)/M
         radius_mean_store.append(mean_radius)
         
-        
+    SEE = SEE_R_F(rms_store, rm_store, M)[1]
+    ERMSF = SEE_R_F(rms_store, rm_store, M)[0]
+    print(SEE)
+    print(ERMSF)
     #Dubbelkollar så att 6*R_g^2/R_F^2 = 1
     for i in range(0,len(radius_mean_store)):
         print((6*radius_mean_store[i])/(rms_store[i]))
