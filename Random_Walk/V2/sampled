@@ -1,0 +1,6 @@
+from IPython import get_ipython
+get_ipython().magic('reset -sf')
+
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import numpy as np

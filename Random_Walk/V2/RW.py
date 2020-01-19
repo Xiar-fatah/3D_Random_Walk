@@ -67,7 +67,7 @@ def rand_walk(num_of_steps):
     
 if __name__ == "__main__":
 
-    step_num = [100,200,300,400,500,600,700,800,900,1000]
+    step_num = [110,20,30,40,50,60,70,80,90,100]
     num_walks = 100
     
     #RMS plot
