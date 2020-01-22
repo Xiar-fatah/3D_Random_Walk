@@ -20,16 +20,18 @@ def rms_fluc_func(rms_arr,rm_arr,walks):
 #Standard error estimate is given by standard deviation / sqrt(n)
 #The standard deviation is given by sqrt(1/(n-1) * sum (R_i - mean_of_R  )**2)
 def SEE_R_F(rms_arr,rm_arr,M):
-    SEE_R_F = []
+    error_R_F = []
+    fluc_R_F = []
 
     for i in range(0,len(rms_arr)):
         var = rms_arr[i]-pow(rm_arr[i],2)
-        frac = 1/(M-1)
-        SEE_R_F.append(np.sqrt(var * frac))
-
+        frac_fluc = M/(M-1)
+        frac_error = 1/(M-1) 
+        fluc_R_F.append(np.sqrt(frac_fluc * var))
+        error_R_F.append(np.sqrt(var * frac_error))
     
     #Return rm_fluc to plot
-    return SEE_R_F
+    return fluc_R_F, error_R_F
 
 
 
@@ -70,7 +72,7 @@ def rm(arr):
     for i in range(0, len(arr)):
         mag_vals.append(np.linalg.norm(arr[i]))
     #Sum every value in the list, take the mean
-    rm = np.sqrt(np.sum(mag_vals)/len(mag_vals))
+    rm = np.sum(mag_vals)/len(mag_vals)
 
     return rm
 

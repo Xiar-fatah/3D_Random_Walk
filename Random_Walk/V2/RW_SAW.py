@@ -1,15 +1,15 @@
+from IPython import get_ipython
+get_ipython().magic('reset -sf')
+
+
 from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
 #%matplotlib qt, for interactive
 
 #Importing measurements from Modules
-from Modules import rms_func
-from Modules import rm_func
-from Modules import rms_fluc_func
-from Modules import err_est_func
-from Modules import radius
-
+from Modules import ROG
+from Modules import rms
 #Three dimensional random walk, SAW.
 
 
@@ -127,63 +127,68 @@ def SAW(n):
 if __name__ == "__main__":
     
 
-    step_num = [10,15,20,25,30,35,40,45,50]
-    num_walks = 1000
+    step_num = [10,15,20,25,30,35,40,45,50,55,60,65,70,75,80]
+    M = 2
     
 
 
     #For each walk we wanna calculate the rms and rm
     rms_store = []
-    rm_store = []
-    counter_store = []
     radius_mean_store = []
+    
+    
+    #Store counter or the amount of successful walks
+    counter_store = []
 
+    #För varje antalet steg i step_num skall den itera 10,15,20...
     for num_of_step in step_num:
         #Contains the last coordinate of each random walk and resets each for walk
         last_coord = []
-        #Store counter values temporary
+        #How many failed attempts
+        radius_temp_store= []
+        #Temporary store the count to take the average value
         count = []
-        radius_store = []
 
-        for w in range(0,num_walks):
+        #För antalet num_walks/reruns
+        for w in range(0,M):
             #Store the total list of x,y,z, coord
             store_val = SAW(num_of_step)
+            
             #Appends last coordinate of each random walk
             last_coord.append(store_val[3][num_of_step-1])
+            #Store r_g in radius_store for each rerun
+            radius_temp_store.append(ROG(store_val[3]))
+            #Appends the amount of failed runs
             count.append(store_val[4])
-            #Calculating each radius of gyration and storing them in radius_store
 
-            radius_store.append(radius(store_val[3]))
-
+        #Takes the average of the count
         counter_store.append(np.sum(count)/len(count))
-            
+
         #calls rms_func with input last_coord
-        rms_store.append(rms_func(last_coord))
-        rm_store.append(rm_func(last_coord))
-        
-         #Calculating the mean value for each step number and storing them in radius_mean_store
-        radius_mean_store.append(np.sum(radius_store)/(len(radius_store)))
-        
-    print(rms_store)
+        rms_store.append(rms(last_coord)[0])
+ 
+        #Nu skall radius_temp_store summeras och delas på antalet reruns
+        mean_radius = np.sum(radius_temp_store)/M
+        radius_mean_store.append(mean_radius)
     #Plot of RMS, RM, RMS, SEE fluctuation
     plt.figure()
     plt.plot(step_num, rms_store, '-')
-    plt.title("Ideal SAW for " + str(num_walks) + " reruns" )
+    plt.title("Self avoiding random walk for " + str(M) + " reruns" )
     plt.xlabel('x')
     plt.ylabel('y')
-#    plt.plot(step_num, rm_store, '-')
-#    plt.plot(step_num, rms_fluc_func(rms_store,rm_store,num_walks), '-')
-#    plt.plot(step_num, err_est_func(rms_store,rm_store,num_walks), '-')
-#    plt.plot(step_num, radius_mean_store, '-')
-#    plt.legend(("RMS", "RM", "RMS fluctuation", "SEE","RoG"))
-#    plt.xlabel('Number of steps')
-#    plt.ylabel('Distance')
-#    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
-    
+
 #    Plot for fraction of success
     plt.figure()
     plt.plot(step_num, np.reciprocal(counter_store), c = 'r')
     plt.xlabel('Number of steps')
     plt.ylabel('Fraction of Success')
-    plt.title('Measurements for ' + str(num_walks) + ' reruns.')
+    plt.title('Fraction of success for ' + str(M) + ' reruns.')
+    plt.figure()
+    plt.plot(step_num, counter_store, c = 'r')
+    plt.xlabel('Number of steps')
+    plt.ylabel('Amount of tries')
+    plt.title('Amount of tries for ' + str(M) + ' reruns.')
+   
+
+    
     
