@@ -4,16 +4,16 @@ get_ipython().magic('reset -sf')
 #from Ideal_Random_Walk_Non_SAW import rand_walk
 #from Ideal_Random_Walk_SAW import SAW
 #from FJC_Random_Walk_Non_SAW import rand_walk
-from FJC_SAW import rand_walk
+from FJC import rand_walk
 #from Double_check_SAW import rand_walk
 import matplotlib.pyplot as plt
 
 
 if __name__ == "__main__":
     
-    num_of_step = 40
+    num_of_step = 1000
     r = 0.1
-    res = rand_walk(num_of_step,r)
+    res = rand_walk(num_of_step)
     #Plot
     fig = plt.figure()
     ax = fig.gca(projection='3d')
